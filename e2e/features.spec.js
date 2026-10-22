@@ -1,5 +1,6 @@
 import { expect, test } from './test.js'
 import { navigateInApp, signInAsDemo, tabBar } from './helpers.js'
+import { supabaseConfigured } from './ports.js'
 import { catalog } from '../src/data/catalog.js'
 import { pickSurprise } from '../src/data/surprise.js'
 
@@ -431,7 +432,8 @@ test.describe('surprise me', () => {
   test('Home and Search open a random title, following the Movies filter', async ({ page }) => {
     await page.getByRole('button', { name: 'Movies', exact: true }).click()
     await page.getByRole('button', { name: 'Surprise me' }).click()
-    await expect(page).toHaveURL(/\/title\//)
+    // A catalog title or one of TMDB's
+    await expect(page).toHaveURL(/\/(title|tmdb\/movie)\//)
     await expect(page.locator('.eyebrow')).toContainText('FILM')
     const firstPick = page.url()
 
@@ -439,5 +441,22 @@ test.describe('surprise me', () => {
     await page.getByRole('button', { name: 'Surprise me' }).click()
     await expect(page.locator('.eyebrow')).toContainText('SERIES')
     expect(page.url()).not.toBe(firstPick)
+  })
+
+  test('TMDB’s movies and TV shows are in the draw too', async ({ page }) => {
+    // TMDB needs Supabase (the tmdb function); without it, as in CI, Surprise me uses the catalog alone
+    test.skip(!supabaseConfigured, 'Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in .env.development.local to run this')
+    // Wait for TMDB's lists (mocked), then always draw the last title: TMDB's come after the catalog's
+    await expect(page.getByRole('heading', { name: 'Popular TV Shows on TMDB' })).toBeVisible()
+    await page.evaluate(() => { Math.random = () => 0.9999 })
+    await page.getByRole('button', { name: 'Surprise me' }).click()
+    await expect(page).toHaveURL('/tmdb/show/1396')
+    await expect(page.getByRole('heading', { name: 'Breaking Bad' })).toBeVisible()
+
+    await tabBar(page).getByRole('link', { name: 'Home' }).click()
+    await page.getByRole('button', { name: 'Movies', exact: true }).click()
+    await page.getByRole('button', { name: 'Surprise me' }).click()
+    await expect(page).toHaveURL('/tmdb/movie/550')
+    await expect(page.getByRole('heading', { name: 'Fight Club' })).toBeVisible()
   })
 })
