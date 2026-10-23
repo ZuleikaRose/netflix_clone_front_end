@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { injectSpeedInsights } from '@vercel/speed-insights'
 import './index.css'
 import App from './App.jsx'
 import { registerServiceWorker } from './lib/pwa.js'
@@ -22,4 +23,7 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
+// Speed Insights' script is served only on Vercel (/_vercel/...), so only production builds load it; the e2e builds
+// (--mode development) would get index.html back and report a script error
+if (import.meta.env.MODE === 'production') injectSpeedInsights()
 registerServiceWorker()
