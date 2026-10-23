@@ -59,6 +59,12 @@ New passwords need 13+ characters with lowercase, uppercase, a digit and a symbo
 | Keyboard shortcuts | Press **?** on any page (or Accessibility menu → Keyboard shortcuts) |
 | Screen-time limits | Profiles → Manage profiles → Edit → Screen time: choose a daily limit and enter the account password. When it's used up the player stops; **Ask a grown-up** allows 30 more minutes with the password |
 | Spanish captions | Accessibility menu → Caption language → Español, then turn on CC in the player |
+| Spanish interface | Accessibility menu → Language → Español (a browser set to Spanish starts in Spanish) |
+| Audio description | In the player, **AD** (or the D key, or Accessibility menu → Audio description): the browser reads out what happens on screen |
+| Weekly screen time | Profiles → Manage profiles → Edit → Screen time on a profile with a daily limit: the last 7 days, total and daily average |
+| Helpful reviews | Under someone else's review, **Helpful**; with two or more reviews, Sort reviews → Most helpful or Newest |
+| Monthly donations | On /donate, How often → Monthly (Supabase build with Stripe): Your monthly donation shows the amount and next payment, with Cancel; also in Account |
+| Staff donations | Account → Support dashboard → Donations (the demo account is staff in memory): totals by month and the latest donations |
 | Downloads | In a production build (`npm run build`, then serve `dist/`), a title page offers **Download to watch offline**; My App → Downloads lists them. Go offline and it still plays |
 | Report a review | Under someone else's review on a title page, **Report**. In memory the demo account is staff: Account → Support dashboard → Reported reviews to keep or remove it |
 | Seed data (dev project) | Six `@example.com` members (Alex, Jordan, Sam, Priya, Chris, Dana) with lists, reviews, tickets and affiliates, from `../supabase/seeds/` |
@@ -105,19 +111,21 @@ Tests serve the built app with `e2e/serve.js`, a tiny static server with SPA fal
 | Area | Routes | Highlights |
 | --- | --- | --- |
 | Auth | `/login`, `/signup`, `/logout`, `/forgot-password`, `/reset-password` | Supabase Auth (or in-memory accounts); sign-in guard that returns you to the page you wanted; plan picker; strict password rules; password reset by email; accessible inline validation |
-| Browse | `/`, `/title/:id`, `/search`, `/new` | Featured carousel with previews, maintenance banner, TV/Movie filters, Continue Watching (saved per member), Top 10, "Because You Liked…" recommendations, player with captions, full controls, Skip Recap / Skip Intro, chapters, seek previews and picture-in-picture, thumbs ratings, ratings & members' reviews, share, URL-driven search filters |
+| Browse | `/`, `/title/:id`, `/search`, `/new` | Featured carousel with previews, maintenance banner, TV/Movie filters, Continue Watching (saved per member), Top 10, "Because You Liked…" recommendations, player with captions and audio description, full controls, Skip Recap / Skip Intro, chapters, seek previews and picture-in-picture, thumbs ratings, ratings & members' reviews (with Helpful votes), share, URL-driven search filters |
 | TMDB | `/tmdb/:type/:tmdbId` | Trending and popular movie and TV rows on Home, TMDB results in Search, and a page per TMDB title (poster, overview, rating, maturity, length, cast, crew, link to TMDB, trailer, where to watch, My List and Favorite, ratings and reviews, More Like This), all through the `tmdb` Edge Function |
 | Profiles & people | `/profiles`, `/people/:name`, `/tmdb/person/:personId` | Who's watching (1–5 profiles, Kids, PIN locks; Kids profiles ask a grown-up before settings), actor and director pages |
 | Discover | `/what-to-watch`, `/year-in-review` | What should I watch? (Claude via the `assistant` function, or word matching), Year in Review with a shareable summary |
 | Together | `/lists`, `/lists/:listId`, `/shared/:slug`, `/party/:code` | Custom lists shareable by link (public page for anyone), watch parties over Supabase Realtime with presence and chat |
-| Activity | `/notifications`, `/history`, `/support-dashboard` | Notifications bell (released reminders, support replies), viewing activity with privacy controls, the support team's ticket queue |
+| Activity | `/notifications`, `/history`, `/support-dashboard` | Notifications bell (released reminders, support replies), viewing activity with privacy controls, the support team's ticket queue, reported reviews and donations by month |
 | Library | `/my-netflix`, `/watchlist`, `/favorites`, `/account` | Watch list & Favorites pages; profile, password, plan, billing (payment method, billing date, pause, cancel), autoplay, maturity, accessibility and privacy settings, Security (two-step sign-in, signed-in devices), danger zone (delete account) |
-| Donate | `/donate` | One-time card donations through Stripe ($5, $10, $25, $50 or $1–$10,000), opened from the round coffee button above the tab bar on every page or from Account, with the member's past donations and an emailed Stripe receipt; the `process-donation` and `stripe-webhook` Edge Functions (dev project for now) |
+| Donate | `/donate` | One-time or monthly card donations through Stripe ($5, $10, $25, $50 or $1–$10,000), opened from the round coffee button above the tab bar on every page or from Account, with the member's past donations and an emailed Stripe receipt; a monthly donation can be cancelled on the page or in Account; the `process-donation`, `monthly-donation` and `stripe-webhook` Edge Functions |
 | Downloads | `/downloads` | Titles saved on this device to watch offline ("Download to watch offline" on a title page; the service worker plays them, seeking included) |
 | Games | `/games`, `/games/:gameId` | Poster Match (`memory`), Plot Twist (`trivia`), Timeline (`timeline`), Cast Call (`cast`), Higher or Lower (`higher-lower`) and Title Scramble (`scramble`), with best scores (saved with Supabase) and opt-in leaderboards (first names only) |
 | Help & legal | `/info/:slug` | Support hub with live-chat mock, FAQs, Feedback, Issue Reporting, Promotions (working promo codes), Technical Requirements, AI Integration, Affiliate Program (join, referral dashboard, tiered commissions, marketing materials), Legal & Privacy hub, Terms, Privacy, Do Not Sell, Accessibility Policy |
 
 The maturity setting in Account filters every catalog surface: Home, Search, New & Hot, related titles and games.
+
+The whole interface is available in English and Spanish (`src/i18n/`); `npm run lint` checks that every interface text has a Spanish translation.
 
 ## Project layout
 
