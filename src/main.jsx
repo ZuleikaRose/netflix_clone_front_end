@@ -23,5 +23,7 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-injectSpeedInsights()
+// Speed Insights' script is served only on Vercel (/_vercel/...), so only production builds load it; the e2e builds
+// (--mode development) would get index.html back and report a script error
+if (import.meta.env.MODE === 'production') injectSpeedInsights()
 registerServiceWorker()
