@@ -85,6 +85,11 @@ npm run test:e2e                  # two builds: :4173 in-memory accounts, :4174 
 npm run test:e2e:report           # open the HTML report from the last run
 ```
 
+**CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs lint (with the Spanish translation check), build
+and the whole suite on GitHub Actions for every pull request and every push to `main`, and keeps the Playwright
+report for 14 days. It has no Supabase settings, so the Supabase specs skip there. Vercel also builds a preview of
+each pull request.
+
 | Spec | Covers |
 | --- | --- |
 | `e2e/auth.spec.js` | Sign-in guard and return path, validation, password rules, sign-up (incl. duplicate email), sign-out, refresh reset, forgot/reset password (memory flow) |
