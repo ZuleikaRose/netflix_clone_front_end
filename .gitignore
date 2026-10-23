@@ -32,3 +32,6 @@ dist-ssr
 # e2e builds
 /dist-e2e/
 /dist-e2e-supabase/
+
+# Local tool notes (also ignored in netflix_clone)
+.cto-toolkit/
