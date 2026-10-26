@@ -132,7 +132,7 @@ Tests serve the built app with `e2e/serve.js`, a tiny static server with SPA fal
 
 The maturity setting in Account filters every catalog surface: Home, Search, New & Hot, related titles and games.
 
-The whole interface is available in English and Spanish (`src/i18n/`); `npm run lint` checks that every interface text has a Spanish translation.
+The whole interface is available in English and Spanish (`src/i18n/`; Language in the accessibility menu, and a Spanish browser starts in Spanish); `npm run lint` checks that every interface text has a Spanish translation. The built-in catalog's synopses and episode names are translated too (`src/i18n/es/content.js`); title names, cast, members' reviews, TMDB data and the full legal documents stay in English.
 
 ## Project layout
 
