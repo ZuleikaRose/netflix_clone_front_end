@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { injectSpeedInsights } from '@vercel/speed-insights'
 import './index.css'
 import App from './App.jsx'
+import { completeDownloads } from './data/downloads.js'
 import { registerServiceWorker } from './lib/pwa.js'
 import { AccessibilityProvider } from './state/AccessibilityProvider.jsx'
 import { AuthProvider } from './state/AuthProvider.jsx'
@@ -27,3 +28,5 @@ createRoot(document.getElementById('root')).render(
 // (--mode development) would get index.html back and report a script error
 if (import.meta.env.MODE === 'production') injectSpeedInsights()
 registerServiceWorker()
+completeDownloads()
+window.addEventListener('online', completeDownloads)
