@@ -17,7 +17,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 25 # the full Playwright suite (318 tests, two builds) takes 11–15 minutes
+    timeout-minutes: 35 # the full Playwright suite (two builds; Chromium phone and desktop, plus a tablet, Firefox and WebKit) takes 15–20 minutes
     steps:
       - uses: actions/checkout@v4
 
@@ -36,8 +36,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox webkit
 
       # No Supabase settings here, so the Supabase specs skip, as in the netflix_clone repo's CI
       - name: End-to-end and accessibility tests
