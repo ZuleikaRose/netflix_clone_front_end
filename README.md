@@ -10,7 +10,6 @@ A mobile-first streaming app built with React 19, Vite and React Router (`Browse
 
 ```bash
 npm install
-cp .env.example .env.development.local   # dev project URL + publishable key (optional)
 npm run dev      # http://localhost:5173
 npm run lint
 npm run build    # uses .env.production.local (production project) when present
@@ -18,9 +17,8 @@ npm run build    # uses .env.production.local (production project) when present
 
 | Env file | Used by | Project |
 | --- | --- | --- |
-| `.env.development.local` | `npm run dev`, the Supabase e2e build | eagle_platoon_dev |
 | `.env.production.local` | `npm run build` | eagle_platoon |
-| (none) | CI, or `VITE_AUTH_BACKEND=memory` | built-in catalog, in-memory accounts |
+| (none) | `npm run dev`, the e2e tests, CI, or `VITE_AUTH_BACKEND=memory` | built-in catalog, in-memory accounts |
 
 Both files are git-ignored; use only the publishable key (`sb_publishable_…`), never the secret key.
 
@@ -69,7 +67,7 @@ New passwords need 13+ characters with lowercase, uppercase, a digit and a symbo
 | Staff donations | Account → Support dashboard → Donations (the demo account is staff in memory): totals by month and the latest donations |
 | Downloads | In a production build (`npm run build`, then serve `dist/`), a title page offers **Download to watch offline**; My App → Downloads lists them. Go offline and it still plays |
 | Report a review | Under someone else's review on a title page, **Report**. In memory the demo account is staff: Account → Support dashboard → Reported reviews to keep or remove it |
-| Seed data (dev project) | Six `@example.com` members (Alex, Jordan, Sam, Priya, Chris, Dana) with lists, reviews, tickets and affiliates, from `../supabase/seeds/` |
+| Seed data (local database only, never production) | Six `@example.com` members (Alex, Jordan, Sam, Priya, Chris, Dana) with lists, reviews, tickets and affiliates, from `../supabase/seeds/` |
 
 ### Troubleshooting
 
@@ -107,7 +105,7 @@ each pull request.
 | `e2e/supabase-auth.spec.js` | Real Supabase sign-in (desktop, :4174): private demo account, staying signed in after a reload (and signed out after Sign out), saved accessibility settings, members' reviews, forgot/reset password with an emailed link, expired link, sign up → promo code → review → delete account |
 | `e2e/a11y.spec.js` | [axe-core](https://github.com/dequelabs/axe-core) WCAG 2.2 AA audit of every page and key interactive states (form errors, chat, expanded FAQ, answered trivia, billing errors and cancel confirmation, affiliate form and dashboard, accessibility menu, player with captions and end screen, delete account errors, forgot and reset password); keyboard focus never hidden behind the sticky bars (2.4.11) |
 
-The Supabase specs (and `tmdb.spec.js`, which needs the Supabase build to call the function) skip without `.env.development.local` (as in CI). Keep Supabase sign-ins in tests few: Auth rate-limits them per IP.
+The Supabase specs (and `tmdb.spec.js`, which needs the Supabase build to call the function) skip without `.env.development.local`, locally as in CI. They used the development project, which was deleted on 2026-10-31, so they're retired: don't point them at production, where each run would create real accounts. Keep Supabase sign-ins in tests few: Auth rate-limits them per IP.
 
 CI (`.github/workflows/ci.yml`) runs lint, build and the full suite on every push to `main` and on pull requests, uploads the HTML report as an artifact, and runs the pgTAP database tests against a local Supabase.
 
